@@ -9,14 +9,13 @@ import { Image, SvgXml } from "react-native-svg";
 export const RestaurantInfoCard = ({ restaurant = {} }) => {
     const { 
         name = "Some Restaurant", 
-        icon, 
+        icon = "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png",
         photos = ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgxbyQh2Id0WpFx5ygJITZsli5rHJxw_eFhw&s"], 
-        address = "24784 Wfeld Igelpfad 16", 
+        vicinity = "24784 Wfeld Igelpfad 16", 
         isOpen = true, 
         rating = 4, 
         isClosedTemporarily = false 
     } = restaurant;
-
     const ratingArray = Array.from(new Array(Math.floor(rating)))
 
     return (
@@ -27,16 +26,27 @@ export const RestaurantInfoCard = ({ restaurant = {} }) => {
                 <View style={styles.starContainer}>
                     {ratingArray.map(() => <SvgXml xml={star} width={20} height={20}/>)}
                 </View>
-                {isClosedTemporarily && <Text variant='label' style={styles.closed}>CLOSED TEMPORARILY</Text>}
-                {isOpen && <SvgXml xml={open} width={20} height={20}/>}
-                {isClosedTemporarily && <Image source={{ uri: icon }}/>}
+                <View style={styles.infoContainer}>
+                    {isClosedTemporarily && <Text variant='label' style={styles.closed}>CLOSED TEMPORARILY</Text>}
+                    {isOpen && <SvgXml xml={open} width={20} height={20}/>}
+                    <Image style={styles.iconContainer} source={{ uri: icon }}/>
+                </View>
             </View>
-            <Text style={styles.address}>{address}</Text>
+            <Text style={styles.address}>{vicinity}</Text>
         </Card>
     )
 }
 
 const styles = StyleSheet.create({
+    infoContainer: {
+        flexDirection: 'row',
+        gap: 20,
+        alignItems: 'end'
+    },
+    iconContainer: {
+        height: 25,
+        width: 25
+    },  
     closed: {
         color: 'red'
     },  
